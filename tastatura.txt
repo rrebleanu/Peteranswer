@@ -1,2 +1,8 @@
-5
-11 22 33 44 55
+.Robert
+Care este numele meu?
+Programez
+Ce faci astazi?
+.1234
+Spune-mi parola
+X
+In ce oras locuiesc?
