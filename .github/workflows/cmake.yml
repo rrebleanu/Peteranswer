@@ -49,6 +49,7 @@ jobs:
       # NOTE: consider updating this value in scripts/build_cppcheck.sh:4 when changing this value
       # renovate: datasource=github-tags depName=danmar/cppcheck versioning=loose
       CPPCHECK_VER: "2.18.1"
+      CPPCHECK_CACHE_BUSTER: "v04"
     steps:
       - name: Checkout repo
         # renovate: datasource=github-tags depName=actions/checkout versioning=loose

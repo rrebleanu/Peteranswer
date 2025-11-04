@@ -10,7 +10,7 @@ runs:
       id: cache-cppcheck
       with:
         path: cppcheck
-        key: cppcheck-${{ env.CPPCHECK_VER }}
+        key: cppcheck-v${{ env.CPPCHECK_VER }}-${{ env.CACHE_BUSTER }}
 
     - name: Build cppcheck
       shell: bash
