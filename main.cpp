@@ -1,16 +1,15 @@
 #include <iostream>
-#include <cstring>    // pentru funcția strcspn()
-#include <fstream>    // pentru lucrul cu fișiere (ifstream, ofstream)
-#include <vector>     // pentru stocarea evenimentelor în vector
+#include <cstring>
+#include <fstream>
+#include <vector>
 #include <string>
 
-// 🧩 bloc condițional pentru compatibilitate Windows/Linux
+// 🔧 Compatibilitate multiplatform pentru _getch()
 #ifdef _WIN32
-    #include <conio.h>    // pentru _getch() (citire tastatură fără afișare)
+    #include <conio.h>  // Windows
 #else
     #include <termios.h>
     #include <unistd.h>
-    // Implementare alternativă a _getch() pentru Linux/macOS
     char _getch() {
         char buf = 0;
         struct termios old = {0};
@@ -26,13 +25,15 @@
     }
 #endif
 
-#include <thread>     // pentru efecte de întârziere (sleep)
-#include <chrono>     // folosit împreună cu thread pentru sleep_for()
-#include <ctime>      // pentru funcții legate de timp (ctime)
-#include <iomanip>    // pentru formatarea afișărilor (optional)
-#include <sstream>    // pentru compunerea șirurilor cu timestamp
-#include <limits>     // pentru curățarea bufferului de intrare
+#include <thread>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+#include <limits>
+
 using namespace std;
+
 
 // ===================================================================
 // === Clasa CONFIGURATIE ============================================
