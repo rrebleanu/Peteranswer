@@ -1,1 +1,1 @@
-
+🕵️‍♂️ Peter Answer Simulator: Arhitectură și Procesare Input Proiectul implementează un simulator al site-ului viral Peter Answer care promite să răspundă la orice întrebare, deși funcționalitatea se bazează pe un truc inteligent de manipulare a input-ului. Acest simulator este construit pe principii de Programare Orientată pe Obiecte (OOP), asigurând separarea clară a responsabilităților între logică, configurație și istoric.
