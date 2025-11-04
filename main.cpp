@@ -141,6 +141,7 @@ public:
 };
 
 // ================= Main =================
+// ================= Main (CORECTAT PENTRU STABILITATE MSAN) =================
 int main() {
     Simulator simulator;
 
@@ -149,25 +150,23 @@ int main() {
     cout << "2 = Introducere manuala (interactiv)\n";
     cout << "Alege 1 sau 2: ";
 
-    string linieOptiune;
-    // Citim inputul pentru opțiune (stabil)
-    if (!getline(cin, linieOptiune)) {
-        linieOptiune = "1";
+    int optiune = 1; // Presupunem implicit 1
+
+    // Încercăm să citim un singur număr. Acesta este cel mai stabil mod.
+    if (!(cin >> optiune)) {
+        // Dacă citirea eșuează (cum se întâmplă la MSAN), forțăm opțiunea 1 și curățăm.
+        cin.clear();
+        optiune = 1;
     }
 
-    int optiune = 1;
-    try {
-        if (!linieOptiune.empty()) {
-            optiune = stoi(linieOptiune);
-        }
-    } catch (const std::exception& e) {
-        optiune = 1; // Fallback in caz de eroare de conversie
-    }
+    // Curățăm buffer-ul rămas înainte de a trece la logica programului
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    if (optiune == 1)
+    if (optiune == 1) {
         simulator.ruleazaDinFisier("tastatura.txt");
-    else
+    } else {
         simulator.ruleazaDinStdin();
+    }
 
     simulator.afiseazaIstoric();
     return 0;
