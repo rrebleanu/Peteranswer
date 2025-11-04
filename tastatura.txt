@@ -1,8 +1,6 @@
-.Robert
-Care este numele meu?
-Programez
-Ce faci astazi?
-.1234
-Spune-mi parola
-X
-In ce oras locuiesc?
+.Bucuresti este capitala Romaniei
+Care este capitala Romaniei?
+#aceasta_petitienueste_valida
+Aceasta intrebare va returna mesaj de eroare
+.42 este raspunsul la viata, univers si tot
+Care e raspunsul la intrebarea suprema?
