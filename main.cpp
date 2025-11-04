@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 #include <limits>
+#include <algorithm>
+// #include <conio.h> și alte librării non-standard sunt eliminate pentru stabilitate maximă
 
 using namespace std;
 
@@ -60,7 +62,7 @@ public:
 
     string getRaspuns() const {
         if (esteValida()) return continut.substr(1);
-        else return "The petition is wrong again. I'll never answer you";
+        else return "Imi pare rau, nu pot raspunde la intrebarea ta.";
     }
 
     friend ostream& operator<<(ostream& out, const Petitie& p) {
@@ -80,18 +82,25 @@ public:
 
     string citesteInput() {
         string input;
+        // Folosim getline pentru a citi o linie completa
         getline(cin, input);
         return input;
     }
 
     void proceseazaPetitie(Petitie& p, const string& intrebare) {
         string raspuns = p.getRaspuns();
+
+        // Simulare gandire
+        cout << "\nPeter se gandeste..." << flush;
+        this_thread::sleep_for(chrono::milliseconds(600));
+        cout << "\r" << string(60, ' ') << "\r";
+
         if (p.esteValida())
             istoric.adaugaEveniment("[SUCCES] Intrebare: '" + intrebare + "', Raspuns: '" + raspuns + "'");
         else
             istoric.adaugaEveniment("[ESEC] Intrebare: '" + intrebare + "', Raspuns: Esec");
 
-        cout << raspuns << "\n"; // afișează doar răspunsul efectiv
+        cout << raspuns << "\n";
     }
 
     void ruleazaDinFisier(const string& fisier) {
@@ -101,6 +110,7 @@ public:
         string liniePetitie, linieIntrebare;
         while (getline(fin, liniePetitie) && getline(fin, linieIntrebare)) {
             Petitie p(liniePetitie, cfg);
+            cout << "\n--- Sesiune din fisier ---\n";
             cout << "Petitie: " << liniePetitie << "\nIntrebare: " << linieIntrebare << "\n";
             proceseazaPetitie(p, linieIntrebare);
         }
@@ -115,6 +125,7 @@ public:
 
             cout << "Introdu intrebarea reala: " << flush;
             string intrebare;
+            // Folosim direct getline pentru a citi intrebarea
             getline(cin, intrebare);
 
             proceseazaPetitie(p, intrebare);
@@ -139,11 +150,19 @@ int main() {
     cout << "Alege 1 sau 2: ";
 
     string linieOptiune;
-    getline(cin, linieOptiune);
+    // Citim inputul pentru opțiune (stabil)
+    if (!getline(cin, linieOptiune)) {
+        linieOptiune = "1";
+    }
 
     int optiune = 1;
-    if (!linieOptiune.empty())
-        optiune = stoi(linieOptiune);
+    try {
+        if (!linieOptiune.empty()) {
+            optiune = stoi(linieOptiune);
+        }
+    } catch (const std::exception& e) {
+        optiune = 1; // Fallback in caz de eroare de conversie
+    }
 
     if (optiune == 1)
         simulator.ruleazaDinFisier("tastatura.txt");
@@ -153,4 +172,3 @@ int main() {
     simulator.afiseazaIstoric();
     return 0;
 }
-
