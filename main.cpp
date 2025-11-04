@@ -12,6 +12,28 @@
 #include <limits>     // pentru curățarea bufferului de intrare
 using namespace std;
 
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+// definim un înlocuitor simplu pentru _getch()
+char _getch() {
+    char buf = 0;
+    struct termios old = {0};
+    if (tcgetattr(0, &old) < 0) return 0;
+    old.c_lflag &= ~ICANON;
+    old.c_lflag &= ~ECHO;
+    if (tcsetattr(0, TCSANOW, &old) < 0) return 0;
+    if (read(0, &buf, 1) < 0) return 0;
+    old.c_lflag |= ICANON;
+    old.c_lflag |= ECHO;
+    tcsetattr(0, TCSADRAIN, &old);
+    return buf;
+}
+#endif
+
+
 // ===================================================================
 // === Clasa CONFIGURATIE ============================================
 // ===================================================================

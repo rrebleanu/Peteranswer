@@ -1,0 +1,4 @@
+.abcde
+Intrebare extra 1
+.12345
+Intrebare extra 2
