@@ -46,9 +46,9 @@ jobs:
     timeout-minutes: 5
     env:
       # check https://github.com/danmar/cppcheck/releases for latest version
-      # NOTE: consider updating this value in scripts/build_cppcheck.sh:4 when changing this value
-      # renovate: datasource=github-tags depName=danmar/cppcheck versioning=loose
+      # VERSIUNEA REALĂ
       CPPCHECK_VER: "2.18.1"
+      # SUFIXUL PENTRU INVALIDAREA CACHE-ULUI
       CPPCHECK_CACHE_BUSTER: "v04"
     steps:
       - name: Checkout repo
@@ -57,6 +57,10 @@ jobs:
 
       - name: Run cppcheck
         uses: ./.github/actions/cppcheck
+        # MODIFICARE CRUCIALĂ: Trimitem ambele variabile ca input
+        with:
+          cppcheck_version: ${{ env.CPPCHECK_VER }}
+          cache_buster: ${{ env.CPPCHECK_CACHE_BUSTER }}
 
   clang-tidy:
     name: "Clang-Tidy"
@@ -106,7 +110,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-            # renovate: depName=ubuntu
+          # renovate: depName=ubuntu
           - os: ubuntu-22.04
             c: clang-18
             cxx: clang++-18
